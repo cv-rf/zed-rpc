@@ -1,0 +1,4 @@
+target/
+companion/target/
+discord-rpc-companion
+*.log
