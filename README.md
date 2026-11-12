@@ -138,3 +138,41 @@ You can also run the companion independently outside of Zed to show presence for
 ```bash
 discord-rpc-companion --standalone
 ```
+
+---
+
+## Publishing to the Official Zed Extension Registry
+
+To publish this extension to the official Zed extension store (`zed-industries/extensions`):
+
+### 1. Update Repository URL & Username
+1. In `src/lib.rs`: Update `const REPO_NAME: &str = "YOUR_GITHUB_USER/zed-rpc";`
+2. In `extension.toml`: Update `repository = "https://github.com/YOUR_GITHUB_USER/zed-rpc"`
+3. In `Cargo.toml`: Update author and repository fields if desired.
+
+### 2. Push to GitHub and Create a Release
+```bash
+git remote add origin https://github.com/YOUR_GITHUB_USER/zed-rpc.git
+git push -u origin main
+git tag v0.1.0
+git push origin v0.1.0
+```
+This triggers the included GitHub Actions workflow (`.github/workflows/release.yml`) which automatically compiles and uploads cross-platform release binaries (Linux x86_64, macOS Apple Silicon / Intel, Windows x86_64).
+
+### 3. Submit to `zed-industries/extensions`
+1. Fork [zed-industries/extensions](https://github.com/zed-industries/extensions) to your personal GitHub account.
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/YOUR_GITHUB_USER/extensions.git
+   cd extensions
+   git submodule init
+   git submodule update
+   ```
+3. Add your extension as a submodule:
+   ```bash
+   git submodule add https://github.com/YOUR_GITHUB_USER/zed-rpc.git extensions/discord-rpc
+   git commit -m "Add extension: discord-rpc"
+   git push origin main
+   ```
+4. Open a Pull Request on the [zed-industries/extensions](https://github.com/zed-industries/extensions) repository!
+
